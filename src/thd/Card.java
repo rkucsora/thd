@@ -47,4 +47,17 @@ public class Card
 		}
 		return type.name();
 	}
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(obj instanceof Card)
+		{
+			Card card = (Card)obj;
+			if(card.getType() == type && card.getValue() == value)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 }

@@ -59,6 +59,11 @@ public class Players
 		return highestCard;
 	}
 	
+	public List<Player> getPlayers()
+	{
+		return players;
+	}
+
 	public void removeCardFromAllPlayers(Card card)
 	{
 		for(Player player : players)

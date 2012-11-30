@@ -66,20 +66,36 @@ public class Deck {
 	
 	public void removeAllOccurence(Card card)
 	{
-		Iterator<Card> iterator = cards.iterator();
-		while(iterator.hasNext())
+		boolean anyMore;
+		do
 		{
-			Card c = iterator.next();
-			if (c.getType() == card.getType() && c.getValue() == card.getValue())
-			{
-				iterator.remove();
-			}
+			 anyMore = cards.remove(card);
 		}
+		while(anyMore);
 	}
 	
 	public boolean isEmpty()
 	{
 		return cards.isEmpty();
+	}
+	
+	public int getAllCardValues()
+	{
+		int value = 0;
+		for(Card c : cards)
+		{
+			value += c.getValue();
+		}
+		return value;
+	}
+	
+	public boolean containsCard(Card card)
+	{
+		if(cards.contains(card))
+		{
+			return true;
+		}
+		return false;
 	}
 	
 	@Override

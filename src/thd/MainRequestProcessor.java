@@ -44,6 +44,11 @@ public class MainRequestProcessor {
 			if(!hand.isEmpty())
 			{
 				Card playedCard;
+				if(playKey())
+				{
+					playedCard = new Card("Key");
+					System.out.println("More, nyerünk!");
+				}
 				if(playScareCrow())
 				{
 					
@@ -120,7 +125,10 @@ public class MainRequestProcessor {
 			if(playedCard.getType() == CardType.Bishop)
 			{
 				Card highestMercenary = players.getHighestMercenary();
-				players.removeCardFromAllPlayers(highestMercenary);
+				if(highestMercenary != null)
+				{
+					players.removeCardFromAllPlayers(highestMercenary);
+				}
 			}
 		}
 		else if("CurrentZone".equals(command))
@@ -154,6 +162,23 @@ public class MainRequestProcessor {
 
 	private boolean playScareCrow()
 	{
+		return false;
+	}
+	
+	private boolean playKey()
+	{
+		if(hand.containsCard(new Card("Key")))
+		{
+			int myScore = getMyPlayer().getPlayedCards().getAllCardValues();
+			for(Player player : players.getPlayers())
+			{
+				if(player.getPlayedCards().getAllCardValues()+1 > myScore)
+				{
+					return false;
+				}
+			}
+			return true;
+		}
 		return false;
 	}
 }
