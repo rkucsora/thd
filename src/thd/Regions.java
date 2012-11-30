@@ -1,7 +1,6 @@
 package thd;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,6 +84,25 @@ public class Regions
 				return;
 			}
 		}
+	}
+	
+	public Region getRegion(String name)
+	{
+		for(Region actualreg : regions)
+		{
+			if(name.equals(actualreg.getRegionName()))
+			{
+				actualreg.setOccupied(true);
+				return actualreg;
+			}
+		}
+		return null;
+	}
+	
+	public void occupyRegionBy(String regionName, Player player)
+	{
+		Region region = getRegion(regionName);
+		region.occupyBy(player);
 	}
 	
 	public void liberateRegion(String regonName)
