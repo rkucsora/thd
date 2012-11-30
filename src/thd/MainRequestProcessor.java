@@ -26,7 +26,6 @@ public class MainRequestProcessor {
 		if("Hand".equals(command))
 		{
 			hand = new Deck();
-			playedCards = new Deck();
 			tokenizer.nextToken();
 			String card = tokenizer.nextToken();
 			while(!"]".equals(card))
@@ -94,11 +93,14 @@ public class MainRequestProcessor {
 		else if("Play".equals(command))
 		{
 			Card playedCard = new Card(tokenizer.nextToken());
-			
 		}
 		else if("CurrentZone".equals(command))
 		{
 			actualRegion = tokenizer.nextToken();
+		}
+		else if("BattleStart".equals(command))
+		{
+			playedCards = new Deck();
 		}
 		else if("BattleEnd".equals(command))
 		{
