@@ -92,7 +92,7 @@ public class MainRequestProcessor {
 		else if("Retrieve".equals(command))
 		{
 			String card = tokenizer.nextToken();
-			if(!"nothing".equals(card))
+			if(!"nothing".equals(card) && !"null".equals(card))
 			{
 				actualPlayer.getPlayedCards().removeCard(card);
 			}
