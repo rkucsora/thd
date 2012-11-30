@@ -170,14 +170,15 @@ public class MainRequestProcessor {
 		if(hand.containsCard(new Card("Key")))
 		{
 			int myScore = getMyPlayer().getPlayedCards().getAllCardValues();
+			boolean isWinning = true; 
 			for(Player player : players.getPlayers())
 			{
 				if(player.getPlayedCards().getAllCardValues()+1 > myScore)
 				{
-					return false;
+					isWinning = false;
 				}
 			}
-			return true;
+			return isWinning;
 		}
 		return false;
 	}

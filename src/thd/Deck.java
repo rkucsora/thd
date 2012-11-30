@@ -91,11 +91,7 @@ public class Deck {
 	
 	public boolean containsCard(Card card)
 	{
-		if(cards.contains(card))
-		{
-			return true;
-		}
-		return false;
+		return cards.contains(card);
 	}
 	
 	@Override
