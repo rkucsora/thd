@@ -59,7 +59,7 @@ public class Deck {
 		StringBuilder builder = new StringBuilder();
 		for(Card card : cards)
 		{
-			builder.append(card);
+			builder.append(card).append(' ');
 		}
 		return builder.toString();
 	}

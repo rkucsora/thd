@@ -36,4 +36,13 @@ public class Players
 		}
 		return null;
 	}
+	
+	public void initPlayedCards()
+	{
+		for(Player player : players)
+		{
+			player.initPlayedCards();
+		}
+	}
+
 }
