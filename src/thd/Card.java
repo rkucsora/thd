@@ -50,7 +50,7 @@ public class Card
 	@Override
 	public boolean equals(Object obj)
 	{
-		if(obj instanceof Card)
+		if(obj != null && obj instanceof Card)
 		{
 			Card card = (Card)obj;
 			if(card.getType() == type && card.getValue() == value)

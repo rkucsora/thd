@@ -100,13 +100,25 @@ public class Deck {
 		return cards.size();
 	}
 	
-	public int getAllCardValues()
+	public int getAllCardValues(boolean spring, boolean winter, Card strongestPlayedMercenary)
 	{
 		int value = 0;
 		for(Card c : cards)
 		{
-			value += c.getValue();
+			if(winter && c.getType() == CardType.Mercenary)
+			{
+				value++;
+			}
+			else if(spring && c.equals(strongestPlayedMercenary))
+			{
+				value += c.getValue()+3;
+			}
+			else
+			{
+				value += c.getValue();
+			}
 		}
+		
 		return value;
 	}
 	

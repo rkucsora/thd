@@ -12,6 +12,8 @@ public class MainRequestProcessor {
 	private String actualProtectedRegion;
 	private Player actualPlayer;
 	private Players players;
+	private boolean springOnField;
+	private boolean winterOnField;
 	
 	public MainRequestProcessor() {
 		hand = new Deck();
@@ -51,7 +53,7 @@ public class MainRequestProcessor {
 				}
 				if(playKey())
 				{
-					System.out.println("More, nyerünk!");
+					System.out.println("More, winrar!");
 					return keyCard.toString();
 				}
 				if(playScareCrow())
@@ -139,6 +141,16 @@ public class MainRequestProcessor {
 					players.removeCardFromAllPlayers(highestMercenary);
 				}
 			}
+			if(playedCard.getType() == CardType.Winter)
+			{
+				winterOnField = true;
+				springOnField = false;
+			}
+			if(playedCard.getType() == CardType.Spring)
+			{
+				springOnField = true;
+				winterOnField = false;
+			}
 		}
 		else if("CurrentZone".equals(command))
 		{
@@ -179,11 +191,12 @@ public class MainRequestProcessor {
 	{
 		if(hand.containsCard(new Card("Key")))
 		{
-			int myScore = getMyPlayer().getPlayedCards().getAllCardValues();
+			Card highestMercenary = players.getHighestMercenary();
+			int myScore = getMyPlayer().getPlayedCards().getAllCardValues(springOnField, winterOnField, highestMercenary);
 			boolean isWinning = true; 
 			for(Player player : players.getPlayers())
 			{
-				if(player.getPlayedCards().getAllCardValues()+1 > myScore)
+				if(player.getPlayedCards().getAllCardValues(springOnField, winterOnField, highestMercenary)+1 > myScore)
 				{
 					isWinning = false;
 				}
