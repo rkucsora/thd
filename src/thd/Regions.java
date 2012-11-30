@@ -68,6 +68,7 @@ public class Regions
 				if(actualreg.getValue()>=max)
 				{
 					maxregion = actualreg;
+					max = actualreg.getValue();
 				}
 			}
 		}
