@@ -145,7 +145,7 @@ public class MainRequestProcessor {
 		}
 		else if("BattleEnd".equals(command))
 		{
-			if(!"tie".equals(tokenizer.nextToken()))
+			if(!"(tie)".equals(tokenizer.nextToken()) && !"tie".equals(tokenizer.nextToken()))
 			{
 				regions.occupyRegion(actualRegion);
 			}
