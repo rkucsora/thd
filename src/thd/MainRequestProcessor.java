@@ -2,8 +2,6 @@ package thd;
 
 import java.util.StringTokenizer;
 
-import thd.Card.CardType;
-
 public class MainRequestProcessor {
 
 	private Deck hand;
