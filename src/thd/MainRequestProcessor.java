@@ -44,10 +44,15 @@ public class MainRequestProcessor {
 			if(!hand.isEmpty())
 			{
 				Card playedCard;
+				Card keyCard = new Card("Key");
+				if(hand.size() == 1 && hand.containsCard(keyCard))
+				{
+					return "drop";
+				}
 				if(playKey())
 				{
-					playedCard = new Card("Key");
 					System.out.println("More, nyerünk!");
+					return keyCard.toString();
 				}
 				if(playScareCrow())
 				{

@@ -95,6 +95,11 @@ public class Deck {
 		return cards.isEmpty();
 	}
 	
+	public int size()
+	{
+		return cards.size();
+	}
+	
 	public int getAllCardValues()
 	{
 		int value = 0;
