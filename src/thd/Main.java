@@ -51,7 +51,7 @@ public class Main {
 					} while(subLine != null && !subLine.trim().equals("]"));
 				}
 				System.out.println("->" + line);
-				if (line.startsWith("ERROR"))
+				if (line.startsWith("ERROR") || line.startsWith("GameEnd"))
 				{
 					break;
 				}
