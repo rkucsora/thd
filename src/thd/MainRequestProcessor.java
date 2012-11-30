@@ -54,8 +54,12 @@ public class MainRequestProcessor {
 					
 				}
 				playedCard = hand.getHighestCard();
-				hand.removeCard(playedCard);
-				return playedCard.toString();
+				if(playedCard != null)
+				{
+					hand.removeCard(playedCard);
+					return playedCard.toString();
+				}
+				else return "pass";
 			}
 			else return "pass";
 		}

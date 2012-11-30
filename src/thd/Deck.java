@@ -20,7 +20,11 @@ public class Deck {
 	
 	public Card getHighestCard()
 	{
-		Card highestCard = cards.get(0);
+		Card highestCard = getFirstNonKey();
+		if(highestCard == null)
+		{
+			return null;
+		}
 		for(Card card : cards)
 		{
 			 if(card.getValue() > highestCard.getValue())
@@ -29,6 +33,18 @@ public class Deck {
 			 }
 		}
 		return highestCard;
+	}
+	
+	private Card getFirstNonKey()
+	{
+		for(Card c: cards)
+		{
+			if(c.getType() != CardType.Key)
+			{
+				return c;
+			}
+		}
+		return null;
 	}
 	
 	public Card getHighestMercenary()
