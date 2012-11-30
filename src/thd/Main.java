@@ -7,12 +7,14 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Date;
 
 public class Main {
 
 	
 	
 	public static void main(String[] args) throws Exception {
+		System.out.println("NEW GAME @ " + new Date());
 		BufferedReader stReader = new BufferedReader(new InputStreamReader(new FileInputStream(System.getProperty("user.dir") + "/startup-info")));
 		String[] srvAddr = stReader.readLine().split(":");
 		System.out.println(srvAddr[0]);
@@ -23,8 +25,6 @@ public class Main {
 		socket.setSoTimeout(0);
 		OutputStream outputStream = socket.getOutputStream();
 		PrintWriter writer = new PrintWriter(outputStream);
-		
-		System.out.println("pwd: " + pwd);
 		
 		InputStream inputStream = socket.getInputStream();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
