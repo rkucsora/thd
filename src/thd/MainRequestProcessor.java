@@ -9,6 +9,8 @@ public class MainRequestProcessor {
 	private Regions regions;
 	private String actualRegion;
 	private String actualProtectedRegion;
+	private Player actualPlayer;
+	private Players players;
 	
 	public MainRequestProcessor() {
 		hand = new Deck();
@@ -90,11 +92,25 @@ public class MainRequestProcessor {
 		}
 		else if("Players".equals(command))
 		{
-			
+			players = new Players();
+			tokenizer.nextToken();
+			String player = tokenizer.nextToken();
+			while(!"]".equals(player))
+			{
+				players.addPlayer(new Player(player));
+				player = tokenizer.nextToken();
+			}
+		}
+		else if("Player".equals(command))
+		{
+			String playerName = tokenizer.nextToken();
+			actualPlayer = players.getPlayer(playerName);
 		}
 		else if("Play".equals(command))
 		{
 			Card playedCard = new Card(tokenizer.nextToken());
+			actualPlayer.playCard(playedCard);
+			System.out.println(actualPlayer);
 		}
 		else if("CurrentZone".equals(command))
 		{
