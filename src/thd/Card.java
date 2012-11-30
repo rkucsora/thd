@@ -2,7 +2,7 @@ package thd;
 
 public class Card 
 {
-	public enum CardType {Courtesan, Heroine,	Winter,	Spring,	Bishop,	Drummer, Scarecrow,	Key, Mercenary};
+	public enum CardType { Courtesan, Heroine, Winter, Spring, Bishop, Drummer, Scarecrow, Key, Mercenary };
 	
 	private CardType type;
 	private int value;
@@ -36,5 +36,15 @@ public class Card
 
 	public void setValue(int value) {
 		this.value = value;
+	}
+	
+	@Override
+	public String toString()
+	{
+		if(type == CardType.Mercenary)
+		{
+			return Integer.toString(value);
+		}
+		return type.name();
 	}
 }

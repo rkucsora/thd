@@ -4,21 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Deck {
-	private List<Card> m_cards;
+	private List<Card> cards;
 	
 	public Deck() {
-		m_cards = new ArrayList<Card>();
+		cards = new ArrayList<Card>();
 	}
 	
 	public void addCardToDeck(Card card)
 	{
-		m_cards.add(card);
+		cards.add(card);
 	}
 	
 	public Card getHighestCard()
 	{
-		Card highestCard = m_cards.get(0);
-		for(Card card : m_cards)
+		Card highestCard = cards.get(0);
+		for(Card card : cards)
 		{
 			 if(card.getValue() > highestCard.getValue())
 			 {
@@ -30,11 +30,22 @@ public class Deck {
 	
 	public void removeCard(Card card)
 	{
-		m_cards.remove(card);
+		cards.remove(card);
 	}
 	
 	public boolean isEmpty()
 	{
-		return m_cards.isEmpty();
+		return cards.isEmpty();
+	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuilder builder = new StringBuilder();
+		for(Card card : cards)
+		{
+			builder.append(card);
+		}
+		return builder.toString();
 	}
 }

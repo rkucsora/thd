@@ -6,14 +6,14 @@ import thd.Card.CardType;
 
 public class MainRequestProcessor {
 
-	private Deck deck;
+	private Deck hand;
 	private Deck playedCards;
 	private Regions regions;
 	private String actualRegion;
 	private String actualProtectedRegion;
 	
 	public MainRequestProcessor() {
-		deck = new Deck();
+		hand = new Deck();
 		playedCards = new Deck();
 		regions = new Regions();
 	}
@@ -25,13 +25,13 @@ public class MainRequestProcessor {
 		
 		if("Hand".equals(command))
 		{
-			deck = new Deck();
+			hand = new Deck();
 			playedCards = new Deck();
 			tokenizer.nextToken();
 			String card = tokenizer.nextToken();
 			while(!"]".equals(card))
 			{
-				deck.addCardToDeck(new Card(card));
+				hand.addCardToDeck(new Card(card));
 				card = tokenizer.nextToken();
 			}
 		}
@@ -41,16 +41,18 @@ public class MainRequestProcessor {
 		}
 		else if("?Move".equals(command))
 		{
-			if(!deck.isEmpty())
+			printHandAndDeck();
+			if(!hand.isEmpty())
 			{
-				Card playedCard = deck.getHighestCard();
-				deck.removeCard(playedCard);
-				playedCards.addCardToDeck(playedCard);
-				if(playedCard.getType() == CardType.Mercenary)
+				Card playedCard;
+				if(playScareCrow())
 				{
-					return Integer.toString(playedCard.getValue());
+					
 				}
-				return playedCard.getType().name();
+				playedCard = hand.getHighestCard();
+				hand.removeCard(playedCard);
+				playedCards.addCardToDeck(playedCard);
+				return playedCard.toString();
 			}
 			else return "pass";
 		}
@@ -68,23 +70,20 @@ public class MainRequestProcessor {
 				if(actualProtectedRegion != null)
 				{
 					regions.liberateRegion(actualProtectedRegion);
-					actualProtectedRegion = zone;
 				}
+				actualProtectedRegion = zone;
 			}
 		}
 		else if("?Retrieve".equals(command))
 		{
+			printHandAndDeck();
 			if(!playedCards.isEmpty())
 			{
 				// retrieve a played card
 				Card retrievedCard = playedCards.getHighestCard();
 				playedCards.removeCard(retrievedCard);
-				deck.addCardToDeck(retrievedCard);
-				if(retrievedCard.getType() == CardType.Mercenary)
-				{
-					return Integer.toString(retrievedCard.getValue());
-				}
-				return retrievedCard.getType().name();
+				hand.addCardToDeck(retrievedCard);
+				return retrievedCard.toString();
 			}
 			else return "nothing";
 		}
@@ -94,7 +93,8 @@ public class MainRequestProcessor {
 		}
 		else if("Play".equals(command))
 		{
-			tokenizer.nextToken();
+			Card playedCard = new Card(tokenizer.nextToken());
+			
 		}
 		else if("CurrentZone".equals(command))
 		{
@@ -102,9 +102,22 @@ public class MainRequestProcessor {
 		}
 		else if("BattleEnd".equals(command))
 		{
-			regions.occupyRegion(actualRegion);
+			if(!"tie".equals(tokenizer.nextToken()))
+			{
+				regions.occupyRegion(actualRegion);
+			}
 		}
 		return null;
 	}
 
+	private void printHandAndDeck() 
+	{
+		System.out.println("Hand: " + hand.toString());
+		System.out.println("Table: " + playedCards.toString());
+	}
+
+	private boolean playScareCrow()
+	{
+		return false;
+	}
 }
