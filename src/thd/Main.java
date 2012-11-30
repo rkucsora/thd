@@ -36,29 +36,41 @@ public class Main {
 
 		MainRequestProcessor proc = new MainRequestProcessor();
 		
-		while(true) {
-			String line = reader.readLine();
-			if (line.trim().endsWith("[")) {
-				String subLine = null;
-				do {
-					subLine = reader.readLine();
-					if (subLine != null) {
-						line += "\n" + subLine;
-					}
-				} while(subLine != null && !subLine.trim().equals("]"));
+		try
+		{
+			
+			String line = null;
+			while((line = reader.readLine()) != null) {
+				if (line.trim().endsWith("[")) {
+					String subLine = null;
+					do {
+						subLine = reader.readLine();
+						if (subLine != null) {
+							line += "\n" + subLine;
+						}
+					} while(subLine != null && !subLine.trim().equals("]"));
+				}
+				System.out.println("->" + line);
+				if (line.startsWith("ERROR"))
+				{
+					break;
+				}
+				String resp = proc.processRequest(line);
+				if (resp != null)
+				{
+					System.out.println("<-" + resp);
+					writer.println(resp);
+					writer.flush();
+				}
+			
 			}
-			System.out.println("->" + line);
-			String resp = proc.processRequest(line);
-			if (resp != null)
-			{
-				System.out.println("<-" + resp);
-				writer.println(resp);
-				writer.flush();
-			}
-		
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
 		}
 		
-//		socket.close();
+		socket.close();
 	}
 
 }
