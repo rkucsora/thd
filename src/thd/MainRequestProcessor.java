@@ -79,12 +79,16 @@ public class MainRequestProcessor {
 			if(!playedCards.isEmpty())
 			{
 				// retrieve a played card
-				Card retrievedCard = playedCards.getHighestCard();
+				Card retrievedCard = playedCards.getHighestMercenary();
+				if(retrievedCard == null)
+				{	
+					return "pass";
+				}
 				playedCards.removeCard(retrievedCard);
 				hand.addCardToDeck(retrievedCard);
 				return retrievedCard.toString();
 			}
-			else return "nothing";
+			else return "pass";
 		}
 		else if("Players".equals(command))
 		{
