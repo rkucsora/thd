@@ -9,6 +9,8 @@ public class MainRequestProcessor {
 	private Deck deck;
 	private Deck playedCards;
 	private Regions regions;
+	private String actualRegion;
+	private String actualProtectedRegion;
 	
 	public MainRequestProcessor() {
 		deck = new Deck();
@@ -23,6 +25,8 @@ public class MainRequestProcessor {
 		
 		if("Hand".equals(command))
 		{
+			deck = new Deck();
+			playedCards = new Deck();
 			tokenizer.nextToken();
 			String card = tokenizer.nextToken();
 			while(!"]".equals(card))
@@ -30,7 +34,6 @@ public class MainRequestProcessor {
 				deck.addCardToDeck(new Card(card));
 				card = tokenizer.nextToken();
 			}
-			return null;
 		}
 		else if("?Condottiere".equals(command))
 		{
@@ -58,8 +61,16 @@ public class MainRequestProcessor {
 		}
 		else if("Protect".equals(command))
 		{
-			String protectedZone = tokenizer.nextToken();
-			// mark the zone as protected
+			String zone = tokenizer.nextToken();
+			if(!"nothing".equals(zone))
+			{
+				regions.occupyRegion(zone);
+				if(actualProtectedRegion != null)
+				{
+					regions.liberateRegion(actualProtectedRegion);
+					actualProtectedRegion = zone;
+				}
+			}
 		}
 		else if("?Retrieve".equals(command))
 		{
@@ -84,6 +95,14 @@ public class MainRequestProcessor {
 		else if("Play".equals(command))
 		{
 			tokenizer.nextToken();
+		}
+		else if("CurrentZone".equals(command))
+		{
+			actualRegion = tokenizer.nextToken();
+		}
+		else if("BattleEnd".equals(command))
+		{
+			regions.occupyRegion(actualRegion);
 		}
 		return null;
 	}
