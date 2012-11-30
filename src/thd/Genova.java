@@ -1,16 +1,16 @@
 package thd;
 
-public class Parma implements IRegion
+public class Genova implements IRegion
 {
 
 	@Override
 	public String getRegionName() {
-		return "Parma";
+		return "Genova";
 	}
 
 	@Override
 	public int getValue() {
-		return 4;
+		return 3;
 	}
 
 	private boolean occupied;
@@ -24,4 +24,5 @@ public class Parma implements IRegion
 		occupied = isOccupied;
 		
 	}
+
 }

@@ -1,0 +1,40 @@
+package thd;
+
+public class Card 
+{
+	public enum CardType {Courtesan, Heroine,	Winter,	Spring,	Bishop,	Drummer, Scarecrow,	Key, Mercenary};
+	
+	private CardType type;
+	private int value;
+	
+	public Card(String s)
+	{
+		for (CardType cardType : CardType.values())
+		{	
+			if(s.equals(cardType.name()))
+			{
+				type = cardType;
+				value = cardType == CardType.Courtesan ? 1 : 0;
+				return;
+			}
+		}
+		type = CardType.Mercenary;
+		value = Integer.parseInt(s);
+	}
+
+	public CardType getType() {
+		return type;
+	}
+
+	public void setType(CardType type) {
+		this.type = type;
+	}
+
+	public int getValue() {
+		return value;
+	}
+
+	public void setValue(int value) {
+		this.value = value;
+	}
+}
