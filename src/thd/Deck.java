@@ -1,6 +1,7 @@
 package thd;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import thd.Card.CardType;
@@ -46,6 +47,34 @@ public class Deck {
 	public void removeCard(Card card)
 	{
 		cards.remove(card);
+	}
+	
+	public void removeCard(String cardName)
+	{
+		Card card = new Card(cardName);
+		Iterator<Card> iterator = cards.iterator();
+		while(iterator.hasNext())
+		{
+			Card c = iterator.next();
+			if (c.getType() == card.getType() && c.getValue() == card.getValue())
+			{
+				iterator.remove();
+				break;
+			}
+		}
+	}
+	
+	public void removeAllOccurence(Card card)
+	{
+		Iterator<Card> iterator = cards.iterator();
+		while(iterator.hasNext())
+		{
+			Card c = iterator.next();
+			if (c.getType() == card.getType() && c.getValue() == card.getValue())
+			{
+				iterator.remove();
+			}
+		}
 	}
 	
 	public boolean isEmpty()

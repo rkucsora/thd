@@ -2,10 +2,11 @@ package thd;
 
 import java.util.StringTokenizer;
 
+import thd.Card.CardType;
+
 public class MainRequestProcessor {
 
 	private Deck hand;
-	private Deck playedCards;
 	private Regions regions;
 	private String actualRegion;
 	private String actualProtectedRegion;
@@ -14,7 +15,6 @@ public class MainRequestProcessor {
 	
 	public MainRequestProcessor() {
 		hand = new Deck();
-		playedCards = new Deck();
 		regions = new Regions();
 	}
 	
@@ -50,14 +50,12 @@ public class MainRequestProcessor {
 				}
 				playedCard = hand.getHighestCard();
 				hand.removeCard(playedCard);
-				playedCards.addCardToDeck(playedCard);
 				return playedCard.toString();
 			}
 			else return "pass";
 		}
 		else if("?Bishop".equals(command))
 		{
-			// place bishop to an unoccupied field
 			return "pass";
 		}
 		else if("Protect".equals(command))
@@ -76,6 +74,7 @@ public class MainRequestProcessor {
 		else if("?Retrieve".equals(command))
 		{
 			printHandAndDeck();
+			Deck playedCards = getMyPlayer().getPlayedCards();
 			if(!playedCards.isEmpty())
 			{
 				// retrieve a played card
@@ -89,6 +88,14 @@ public class MainRequestProcessor {
 				return retrievedCard.toString();
 			}
 			else return "pass";
+		}
+		else if("Retrieve".equals(command))
+		{
+			String card = tokenizer.nextToken();
+			if(!"nothing".equals(card))
+			{
+				actualPlayer.getPlayedCards().removeCard(card);
+			}
 		}
 		else if("Players".equals(command))
 		{
@@ -110,7 +117,11 @@ public class MainRequestProcessor {
 		{
 			Card playedCard = new Card(tokenizer.nextToken());
 			actualPlayer.playCard(playedCard);
-			System.out.println(actualPlayer);
+			if(playedCard.getType() == CardType.Bishop)
+			{
+				Card highestMercenary = players.getHighestMercenary();
+				players.removeCardFromAllPlayers(highestMercenary);
+			}
 		}
 		else if("CurrentZone".equals(command))
 		{
@@ -118,7 +129,7 @@ public class MainRequestProcessor {
 		}
 		else if("BattleStart".equals(command))
 		{
-			playedCards = new Deck();
+			players.initPlayedCards();
 		}
 		else if("BattleEnd".equals(command))
 		{
@@ -130,10 +141,15 @@ public class MainRequestProcessor {
 		return null;
 	}
 
+	private Player getMyPlayer()
+	{
+		return players.getPlayer("TWO_AND_A_HALF_DEV");
+	}
+
 	private void printHandAndDeck() 
 	{
 		System.out.println("Hand: " + hand.toString());
-		System.out.println("Table: " + playedCards.toString());
+		System.out.println("Table: " + getMyPlayer().getPlayedCards().toString());
 	}
 
 	private boolean playScareCrow()

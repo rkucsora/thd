@@ -1,39 +1,55 @@
 package thd;
 
-public class Player {
+public class Player
+{
 	private String name;
 	private int score;
-	
+
 	private Deck playedCards = new Deck();
-	
+
 	public Player(String name)
 	{
 		this.name = name;
 	}
-	
-	public String getName() {
+
+	public String getName()
+	{
 		return name;
 	}
-	public void setName(String name) {
+
+	public void setName(String name)
+	{
 		this.name = name;
 	}
-	public int getScore() {
+
+	public int getScore()
+	{
 		return score;
 	}
-	public void setScore(int score) {
+
+	public void setScore(int score)
+	{
 		this.score = score;
 	}
-	
-	public void initPlayedCards() {
+
+	public void initPlayedCards()
+	{
 		playedCards = new Deck();
 	}
-	
-	public void playCard(Card card) {
+
+	public void playCard(Card card)
+	{
 		playedCards.addCardToDeck(card);
 	}
 	
+	public Deck getPlayedCards()
+	{
+		return playedCards;
+	}
+
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return name + ": " + playedCards;
 	}
 }

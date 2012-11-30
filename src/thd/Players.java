@@ -44,5 +44,27 @@ public class Players
 			player.initPlayedCards();
 		}
 	}
+	
+	public Card getHighestMercenary()
+	{
+		Card highestCard = null;
+		for(Player player : players)
+		{
+			Card potentialHighestCard = player.getPlayedCards().getHighestMercenary();
+			if(potentialHighestCard != null && (highestCard == null || potentialHighestCard.getValue() > highestCard.getValue()))
+			{
+				highestCard = potentialHighestCard;
+			}
+		}
+		return highestCard;
+	}
+	
+	public void removeCardFromAllPlayers(Card card)
+	{
+		for(Player player : players)
+		{
+			player.getPlayedCards().removeAllOccurence(card);
+		}
+	}
 
 }
