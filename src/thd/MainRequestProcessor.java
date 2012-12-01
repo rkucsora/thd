@@ -90,8 +90,16 @@ public class MainRequestProcessor
 						hand.removeCard(playedCard);
 						return playedCard.toString();
 					}
+					else
+					{
+						return "pass";
+					}
 				} 
-				return "pass";
+				else
+				{
+					hand.removeCard(playedCard);
+					return playedCard.toString();
+				}
 			} else
 				return "pass";
 		} else if ("?Bishop".equals(command))
