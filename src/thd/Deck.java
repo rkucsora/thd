@@ -23,8 +23,12 @@ public class Deck {
 		cards.add(card);
 	}
 	
-	public Card getHighestCard()
+	public Card getHighestCard(boolean isWinter)
 	{
+		if(isWinter)
+		{
+			return getLowestCardWithoutKey();
+		}
 		Card highestCard = getFirstNonKey();
 		if(highestCard == null)
 		{
@@ -40,16 +44,37 @@ public class Deck {
 		return highestCard;
 	}
 	
-	public Card getLowestCard()
+	public Card getLowestCardWithoutKey()
 	{
 		Card lowestCard = getFirstNonKey();
-		if(lowestCard == null)
+		if (lowestCard == null)
 		{
 			return null;
 		}
 		for(Card card : cards)
 		{
-			if(card.getValue() < lowestCard.getValue())
+			if(card.getValue() < lowestCard.getValue() && card.getType() != CardType.Key)
+			{
+				lowestCard = card;
+			}
+		}
+		return lowestCard;
+	}
+	
+	public Card getLowestCardWithoutKeyAndBishop()
+	{
+		Card lowestCard = getFirstNonKeyAndBishop();
+		if(lowestCard == null)
+		{
+			lowestCard = getFirstNonKey();
+			if(lowestCard == null)
+			{
+				return null;
+			}
+		}
+		for(Card card : cards)
+		{
+			if(card.getValue() < lowestCard.getValue() && card.getType() != CardType.Key && card.getType() != CardType.Bishop)
 			{
 				lowestCard = card;
 			}
@@ -63,6 +88,19 @@ public class Deck {
 		{
 			if(c.getType() != CardType.Key)
 			{
+				return c;
+			}
+		}
+		return null;
+	}
+	
+	private Card getFirstNonKeyAndBishop()
+	{
+		for(Card c: cards)
+		{
+			if(c.getType() != CardType.Key && c.getType() != CardType.Bishop)
+			{
+				System.out.println("!!!! FirstNonKeyAndBishop: " + c.getType().name());
 				return c;
 			}
 		}

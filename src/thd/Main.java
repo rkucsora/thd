@@ -12,6 +12,7 @@ import java.util.Date;
 public class Main {
 
 	public static String MY_NAME = "TWO_AND_A_HALF_DEV";
+	private static int passCounter;
 	
 	public static void main(String[] args) throws Exception {
 		System.out.println("NEW GAME @ " + new Date());
@@ -58,6 +59,23 @@ public class Main {
 				String resp = proc.processRequest(line);
 				if (resp != null)
 				{
+					if(line.startsWith("?Move"))
+					{
+						System.out.print("!!!! ");
+						if("pass".equals(resp))
+						{
+							
+							if(++passCounter == 3)
+							{
+								resp = "drop";
+								passCounter = 0;
+							}
+						}
+						else
+						{
+							passCounter = 0;
+						}
+					}
 					System.out.println("<-" + resp);
 					writer.println(resp);
 					writer.flush();
