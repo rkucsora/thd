@@ -81,7 +81,7 @@ public class Regions
 		Map<Region, Integer> myAdjacentRegions = new HashMap<Region, Integer>();
 		for(Region region : regions)
 		{
-			if (region.getOwner().getName().equals(Main.MY_NAME))
+			if (region.getOwner() != null && region.getOwner().getName().equals(Main.MY_NAME))
 			{
 				for(Region adjacent : region.getAdjacentRegions())
 				{
