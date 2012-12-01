@@ -78,13 +78,14 @@ public class MainRequestProcessor
 			{
 				Card playedCard = null;
 				Card keyCard = new Card("Key");
+				if (playKey())
+				{
+					hand.removeCard(keyCard);
+					return keyCard.toString();
+				}
 				if (hand.size() == 1 && hand.containsCard(keyCard))
 				{
 					return "drop";
-				}
-				if (playKey())
-				{
-					return keyCard.toString();
 				}
 				if (hand.containsCard(new Card("Heroine")))
 				{
@@ -261,6 +262,8 @@ public class MainRequestProcessor
 			regions.occupyRegion(actualRegion);
 		} else if ("BattleStart".equals(command))
 		{
+			winterOnField = false;
+			springOnField = false;
 			moveCounter = 0;
 			players.initPlayedCards();
 //			float averageValue = 1.0f * hand.getAllCardValues(false, false, null, false) / hand.size();
@@ -383,7 +386,7 @@ public class MainRequestProcessor
 			for (Player player : players.getPlayers())
 			{
 				if (player.getPlayedCards().getAllCardValues(springOnField,
-						winterOnField, getHighestMercenary(), false) + 1 > myScore)
+						winterOnField, getHighestMercenary(), false) > myScore)
 				{
 					isWinning = false;
 				}
