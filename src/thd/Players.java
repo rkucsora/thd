@@ -59,6 +59,23 @@ public class Players
 		return highestCard;
 	}
 	
+	public Card getSecondHighestMercenary(Card highestMercenary)
+	{
+		Card secondHighestCard = null;
+		Deck clonedDeck;
+		for(Player player : players)
+		{
+			clonedDeck = new Deck(player.getPlayedCards());
+			clonedDeck.removeAllOccurence(highestMercenary);
+			Card potentialHighestCard = clonedDeck.getHighestMercenary();
+			if(potentialHighestCard != null && (secondHighestCard == null || potentialHighestCard.getValue() > secondHighestCard.getValue()))
+			{
+				secondHighestCard = potentialHighestCard;
+			}
+		}
+		return secondHighestCard; 
+	}
+	
 	public List<Player> getPlayers()
 	{
 		return players;

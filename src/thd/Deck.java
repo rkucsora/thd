@@ -13,6 +13,11 @@ public class Deck {
 		cards = new ArrayList<Card>();
 	}
 	
+	public Deck(Deck d)
+	{
+		cards = new ArrayList<Card>(d.cards);
+	}
+	
 	public void addCardToDeck(Card card)
 	{
 		cards.add(card);
@@ -124,7 +129,7 @@ public class Deck {
 			}
 			else
 			{
-				if(c.getType() == CardType.Mercenary)
+				if(c.getType() == CardType.Mercenary && drummerPresent)
 				{
 					value += c.getValue();
 				}

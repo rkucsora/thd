@@ -67,6 +67,7 @@ public class MainRequestProcessor
 				put(hand.getHighestMercenary() == null ? "pass" : Integer.toString(hand.getHighestMercenary().getValue()), gainFromHighestMerc());
 				put("Spring", gainFromSpring());
 				put("Winter", gainFromWinter());
+				put("Bishop", gainFromBishop());
 				}};
 				int topValue = Integer.MIN_VALUE;
 				for(Entry<String, Integer> entry : gainMap.entrySet())
@@ -293,6 +294,11 @@ public class MainRequestProcessor
 	{
 		return players.getHighestMercenary();
 	}
+	
+	private Card getSecondHighestMercenary()
+	{
+		return players.getSecondHighestMercenary(getHighestMercenary());
+	}
 
 	private boolean playKey()
 	{
@@ -336,7 +342,33 @@ public class MainRequestProcessor
 	
 	private int gainFromBishop()
 	{
-		return 0;
+		if(hand.containsCard(new Card("Bishop")))
+		{
+			int actualDelta = getDelta(springOnField, winterOnField);
+			Deck myDeckWithBishop = new Deck(getMyPlayer().getPlayedCards());
+			myDeckWithBishop.removeAllOccurence(getHighestMercenary());
+			int myScore = myDeckWithBishop.getAllCardValues(
+					springOnField, winterOnField, getSecondHighestMercenary(), false);
+			int topScore = 0;
+			Deck playerDeckWithBishop;
+			for (Player player : players.getPlayers())
+			{
+				if (!getMyPlayer().equals(player))
+				{
+					playerDeckWithBishop = new Deck(player.getPlayedCards());
+					playerDeckWithBishop.removeAllOccurence(getHighestMercenary());
+					int playerScore = playerDeckWithBishop.getAllCardValues(
+							springOnField, winterOnField, getSecondHighestMercenary(), false);
+					if (playerScore > topScore)
+					{
+						topScore = playerScore;
+					}
+				}
+			}
+			int withBishopDelta = myScore - topScore;
+			return withBishopDelta - actualDelta;
+		}
+		return Integer.MIN_VALUE;
 	}
 	
 }
