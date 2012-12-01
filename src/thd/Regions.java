@@ -110,6 +110,61 @@ public class Regions
 		return maxRegion;
 	}
 	
+	public Region getLinkingRegionOf(Player player, int numOfAdjacents)
+	{
+		Map<Region, Integer> myAdjacentRegions = new HashMap<Region, Integer>();
+		for(Region region : regions)
+		{
+			if (region.getOwner() != null && region.getOwner() == player)
+			{
+				for(Region adjacent : region.getAdjacentRegions())
+				{
+					Integer occurence = myAdjacentRegions.get(adjacent);
+					if (occurence == null)
+					{
+						myAdjacentRegions.put(adjacent, 1);
+					}
+					else
+					{
+						myAdjacentRegions.put(adjacent, occurence + 1); 
+					}
+				}
+			}
+		}
+		int max = 0;
+		Region maxRegion = null;
+		for(Entry<Region, Integer> entry : myAdjacentRegions.entrySet())
+		{
+			if(entry.getValue() > max)
+			{
+				max = entry.getValue();
+				maxRegion = entry.getKey();
+			}
+		}
+		return max == numOfAdjacents ? maxRegion : null;
+	}
+	
+	public Region getEnemyLinkingRegion(Players players)
+	{
+		for(Player player : players.getPlayers())
+		{
+			Region region = getLinkingRegionOf(player, 2);
+			if (region != null)
+			{
+				return region;
+			}
+		}
+		for(Player player : players.getPlayers())
+		{
+			Region region = getLinkingRegionOf(player, 1);
+			if (region != null)
+			{
+				return region;
+			}
+		}
+		return null;
+	}
+	
 	public void occupyRegion(String regionName)
 	{
 		for(Region actualreg : regions)

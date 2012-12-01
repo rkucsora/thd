@@ -68,6 +68,10 @@ public class MainRequestProcessor
 					System.out.println("More, winrar!");
 					return keyCard.toString();
 				}
+				if (hand.containsCard(new Card("Courtesan")))
+				{
+					return "Courtesan";
+				}
 				@SuppressWarnings("serial")
 				Map<String, Integer> gainMap = new HashMap<String, Integer>() {{
 					put("Drummer", gainFromDrummer());
@@ -113,7 +117,8 @@ public class MainRequestProcessor
 				return "pass";
 		} else if ("?Bishop".equals(command))
 		{
-			return "pass";
+			Region enemyRegion = regions.getEnemyLinkingRegion(players);
+			return enemyRegion == null ? "pass" : enemyRegion.getRegionName();
 		} else if ("Protect".equals(command))
 		{
 			String zone = tokenizer.nextToken();
