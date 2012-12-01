@@ -32,12 +32,29 @@ public class Deck {
 		}
 		for(Card card : cards)
 		{
-			 if(card.getValue() < highestCard.getValue())
+			 if(card.getValue() > highestCard.getValue())
 			 {
 					highestCard = card;
 			 }
 		}
 		return highestCard;
+	}
+	
+	public Card getLowestCard()
+	{
+		Card lowestCard = getFirstNonKey();
+		if(lowestCard == null)
+		{
+			return null;
+		}
+		for(Card card : cards)
+		{
+			if(card.getValue() < lowestCard.getValue())
+			{
+				lowestCard = card;
+			}
+		}
+		return lowestCard;
 	}
 	
 	private Card getFirstNonKey()
@@ -57,12 +74,25 @@ public class Deck {
 		Card highestCard = null;
 		for(Card card : cards)
 		{
-			 if(card.getType() == CardType.Mercenary && (highestCard == null || card.getValue() < highestCard.getValue()))
+			 if(card.getType() == CardType.Mercenary && (highestCard == null || card.getValue() > highestCard.getValue()))
 			 {
 					highestCard = card;
 			 }
 		}
 		return highestCard;
+	}
+	
+	public Card getLowestMercenary()
+	{
+		Card lowestCard = null;
+		for(Card card : cards)
+		{
+			if(card.getType() == CardType.Mercenary && (lowestCard == null || card.getValue() < lowestCard.getValue()))
+			{
+				lowestCard = card;
+			}
+		}
+		return lowestCard;
 	}
 	
 	public void removeCard(Card card)

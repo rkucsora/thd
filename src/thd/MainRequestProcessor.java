@@ -18,6 +18,7 @@ public class MainRequestProcessor
 	private Players players;
 	private boolean springOnField;
 	private boolean winterOnField;
+	private int moveCounter;
 
 	public MainRequestProcessor()
 	{
@@ -72,6 +73,8 @@ public class MainRequestProcessor
 			}
 		} else if ("?Move".equals(command))
 		{
+			moveCounter++;
+			System.out.println("Ennyiedik kör e! " + moveCounter);
 			printHandAndDeck();
 			if (!hand.isEmpty())
 			{
@@ -86,6 +89,11 @@ public class MainRequestProcessor
 					System.out.println("More, winrar!");
 					return keyCard.toString();
 				}
+				if (hand.containsCard(new Card("Heroine")))
+				{
+					hand.removeCard(new Card("Heroine"));
+					return "Heroine";
+				}
 				if (hand.containsCard(new Card("Courtesan")))
 				{
 					hand.removeCard(new Card("Courtesan"));
@@ -94,8 +102,8 @@ public class MainRequestProcessor
 				@SuppressWarnings("serial")
 				Map<String, Integer> gainMap = new HashMap<String, Integer>() {{
 					put("Drummer", gainFromDrummer());
-					put("Heroine", gainFromHeroine());
-					put(hand.getHighestMercenary() == null ? "pass" : Integer.toString(hand.getHighestMercenary().getValue()), gainFromHighestMerc());
+//					put("Heroine", gainFromHeroine());
+					put(hand.getHighestMercenary() == null ? "pass" : Integer.toString(hand.getHighestMercenary().getValue()), gainFromLowestMerc());
 					put("Spring", gainFromSpring());
 					put("Winter", gainFromWinter());
 					put("Bishop", gainFromBishop());
@@ -103,20 +111,24 @@ public class MainRequestProcessor
 				int topValue = Integer.MIN_VALUE;
 				for(Entry<String, Integer> entry : gainMap.entrySet())
 				{
-					if(entry.getValue() > topValue && entry.getValue() > 0)
+					System.out.println(entry.getKey() + ": " + entry.getValue());
+					if(entry.getValue() > topValue && entry.getValue() > 2)
 					{
 						topValue = entry.getValue();
 						playedCard = new Card(entry.getKey());
 					}
 				}
 				
-				if (playScareCrow())
-				{
-
-				}
 				if (playedCard == null)
 				{
-					playedCard = hand.getHighestCard();
+					if(moveCounter > 2)
+					{
+						playedCard = hand.getHighestCard();
+					}
+					else
+					{
+						playedCard = hand.getLowestCard();
+					}
 					if(playedCard != null)
 					{
 						hand.removeCard(playedCard);
@@ -231,6 +243,7 @@ public class MainRequestProcessor
 			regions.occupyRegion(actualRegion);
 		} else if ("BattleStart".equals(command))
 		{
+			moveCounter = 0;
 			players.initPlayedCards();
 			float averageValue = 1.0f * hand.getAllCardValues(false, false, null, false) / hand.size();
 			System.out.println("!!!! Current hand value:" + averageValue);
@@ -263,11 +276,6 @@ public class MainRequestProcessor
 			System.out.println(player.getName() + ": "
 					+ player.getPlayedCards().toString());
 		}
-	}
-
-	private boolean playScareCrow()
-	{
-		return false;
 	}
 
 	private int getDelta(boolean spring, boolean winter)
@@ -312,10 +320,10 @@ public class MainRequestProcessor
 		return Integer.MIN_VALUE;
 	}
 
-	private int gainFromHighestMerc()
+	private int gainFromLowestMerc()
 	{
-		Card highestMerc = hand.getHighestMercenary();
-		if(highestMerc == null)
+		Card lowestMerc = hand.getLowestMercenary();
+		if(lowestMerc == null)
 		{
 			return Integer.MIN_VALUE;
 		}
@@ -325,7 +333,7 @@ public class MainRequestProcessor
 		}
 		else
 		{
-			int highestMercValue = highestMerc.getValue();
+			int highestMercValue = lowestMerc.getValue();
 			if(springOnField)
 			{
 				if(getHighestMercenary() == null || getHighestMercenary().getValue() <= highestMercValue)
@@ -367,14 +375,14 @@ public class MainRequestProcessor
 		return false;
 	}
 	
-	private int gainFromHeroine()
-	{
-		if(hand.containsCard(new Card("Heroine")))
-		{
-			return 20;
-		}
-		return Integer.MIN_VALUE;
-	}
+//	private int gainFromHeroine()
+//	{
+//		if(hand.containsCard(new Card("Heroine")))
+//		{
+//			return 20;
+//		}
+//		return Integer.MIN_VALUE;
+//	}
 	
 	private int gainFromDrummer()
 	{
