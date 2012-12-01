@@ -64,7 +64,7 @@ public class MainRequestProcessor
 				Map<String, Integer> gainMap = new HashMap<String, Integer>() {{
 				put("Drummer", gainFromDrummer());
 				put("Heroine", gainFromHeroine());
-				put(Integer.toString(gainFromHighestMerc()), gainFromHighestMerc());
+				put(Integer.toString(hand.getHighestMercenary().getValue()), gainFromHighestMerc());
 				put("Spring", gainFromSpring());
 				put("Winter", gainFromWinter());
 				}};
