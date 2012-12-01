@@ -1,5 +1,8 @@
 package thd;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.StringTokenizer;
 
 import thd.Card.CardType;
@@ -46,7 +49,7 @@ public class MainRequestProcessor
 			printHandAndDeck();
 			if (!hand.isEmpty())
 			{
-				Card playedCard;
+				Card playedCard = null;
 				Card keyCard = new Card("Key");
 				if (hand.size() == 1 && hand.containsCard(keyCard))
 				{
@@ -57,17 +60,38 @@ public class MainRequestProcessor
 					System.out.println("More, winrar!");
 					return keyCard.toString();
 				}
+				@SuppressWarnings("serial")
+				Map<String, Integer> gainMap = new HashMap<String, Integer>() {{
+				put("Drummer", gainFromDrummer());
+				put("Heroine", gainFromHeroine());
+				put(Integer.toString(gainFromHighestMerc()), gainFromHighestMerc());
+				put("Spring", gainFromSpring());
+				put("Winter", gainFromWinter());
+				}};
+				int topValue = Integer.MIN_VALUE;
+				for(Entry<String, Integer> entry : gainMap.entrySet())
+				{
+					if(entry.getValue() > topValue)
+					{
+						topValue = entry.getValue();
+						playedCard = new Card(entry.getKey());
+					}
+				}
+				
 				if (playScareCrow())
 				{
 
 				}
-				playedCard = hand.getHighestCard();
-				if (playedCard != null)
+				if (playedCard == null)
 				{
-					hand.removeCard(playedCard);
-					return playedCard.toString();
-				} else
-					return "pass";
+					playedCard = hand.getHighestCard();
+					if(playedCard != null)
+					{
+						hand.removeCard(playedCard);
+						return playedCard.toString();
+					}
+				} 
+				return "pass";
 			} else
 				return "pass";
 		} else if ("?Bishop".equals(command))
@@ -182,14 +206,14 @@ public class MainRequestProcessor
 	private int getDelta(boolean spring, boolean winter)
 	{
 		int myScore = getMyPlayer().getPlayedCards().getAllCardValues(
-				springOnField, winterOnField, getHighestMercenary());
+				springOnField, winterOnField, getHighestMercenary(), false);
 		int topScore = 0;
 		for (Player player : players.getPlayers())
 		{
 			if (!getMyPlayer().equals(player))
 			{
 				int playerScore = player.getPlayedCards().getAllCardValues(
-						springOnField, winterOnField, getHighestMercenary());
+						springOnField, winterOnField, getHighestMercenary(), false);
 				if (playerScore > topScore)
 				{
 					topScore = playerScore;
@@ -255,14 +279,13 @@ public class MainRequestProcessor
 	{
 		if (hand.containsCard(new Card("Key")))
 		{
-			Card highestMercenary = getHighestMercenary();
 			int myScore = getMyPlayer().getPlayedCards().getAllCardValues(
-					springOnField, winterOnField, highestMercenary);
+					springOnField, winterOnField, getHighestMercenary(), false);
 			boolean isWinning = true;
 			for (Player player : players.getPlayers())
 			{
 				if (player.getPlayedCards().getAllCardValues(springOnField,
-						winterOnField, highestMercenary) + 1 > myScore)
+						winterOnField, getHighestMercenary(), false) + 1 > myScore)
 				{
 					isWinning = false;
 				}
@@ -271,4 +294,30 @@ public class MainRequestProcessor
 		}
 		return false;
 	}
+	
+	private int gainFromHeroine()
+	{
+		if(hand.containsCard(new Card("Heroine")))
+		{
+			return 10;
+		}
+		return Integer.MIN_VALUE;
+	}
+	
+	private int gainFromDrummer()
+	{
+		if(hand.containsCard(new Card("Drummer")))
+		{
+			int currentValue = getMyPlayer().getPlayedCards().getAllCardValues(springOnField, winterOnField, getHighestMercenary(), false);
+			int valueWithDrummer = getMyPlayer().getPlayedCards().getAllCardValues(springOnField, winterOnField, getHighestMercenary(), true);
+			return valueWithDrummer - currentValue;
+		}
+		return Integer.MIN_VALUE;
+	}
+	
+	private int gainFromBishop()
+	{
+		return 0;
+	}
+	
 }

@@ -14,7 +14,18 @@ public class Card
 			if(s.equals(cardType.name()))
 			{
 				type = cardType;
-				value = cardType == CardType.Courtesan ? 1 : 0;
+				if(cardType == CardType.Courtesan)
+				{
+					value = 1;
+				}
+				else if(cardType == CardType.Heroine)
+				{
+					value = 10;
+				}
+				else
+				{
+					value = 0;
+				}
 				return;
 			}
 		}

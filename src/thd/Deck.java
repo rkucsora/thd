@@ -100,25 +100,37 @@ public class Deck {
 		return cards.size();
 	}
 	
-	public int getAllCardValues(boolean spring, boolean winter, Card strongestPlayedMercenary)
+	public int getAllCardValues(boolean spring, boolean winter, Card strongestPlayedMercenary, boolean forceDrummer)
 	{
 		int value = 0;
+		boolean drummerPresent = cards.contains(new Card("Drummer")) || forceDrummer;
 		for(Card c : cards)
 		{
 			if(winter && c.getType() == CardType.Mercenary)
 			{
 				value++;
+				if(drummerPresent)
+				{
+					value++;
+				}
 			}
 			else if(spring && c.equals(strongestPlayedMercenary))
 			{
+				if(drummerPresent)
+				{
+					value += c.getValue();
+				}
 				value += c.getValue()+3;
 			}
 			else
 			{
+				if(c.getType() == CardType.Mercenary)
+				{
+					value += c.getValue();
+				}
 				value += c.getValue();
 			}
 		}
-		
 		return value;
 	}
 	
