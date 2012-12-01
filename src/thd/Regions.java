@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class Regions 
 {
@@ -73,6 +74,40 @@ public class Regions
 			}
 		}
 		return maxregion;
+	}
+	
+	public Region getLinkingRegion()
+	{
+		Map<Region, Integer> myAdjacentRegions = new HashMap<Region, Integer>();
+		for(Region region : regions)
+		{
+			if (region.getOwner().getName().equals(Main.MY_NAME))
+			{
+				for(Region adjacent : region.getAdjacentRegions())
+				{
+					Integer occurence = myAdjacentRegions.get(adjacent);
+					if (occurence == null)
+					{
+						myAdjacentRegions.put(adjacent, 1);
+					}
+					else
+					{
+						myAdjacentRegions.put(adjacent, occurence + 1); 
+					}
+				}
+			}
+		}
+		int max = 0;
+		Region maxRegion = null;
+		for(Entry<Region, Integer> entry : myAdjacentRegions.entrySet())
+		{
+			if(entry.getValue() > max)
+			{
+				max = entry.getValue();
+				maxRegion = entry.getKey();
+			}
+		}
+		return maxRegion;
 	}
 	
 	public void occupyRegion(String regionName)

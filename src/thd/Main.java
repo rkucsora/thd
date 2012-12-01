@@ -11,7 +11,7 @@ import java.util.Date;
 
 public class Main {
 
-	
+	public static String MY_NAME = "TWO_AND_A_HALF_DEV";
 	
 	public static void main(String[] args) throws Exception {
 		System.out.println("NEW GAME @ " + new Date());

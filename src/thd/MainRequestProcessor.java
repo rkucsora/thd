@@ -43,7 +43,15 @@ public class MainRequestProcessor
 			}
 		} else if ("?Condottiere".equals(command))
 		{
-			return regions.getHighestRegion().getRegionName();
+			Region linkingRegion = regions.getLinkingRegion();
+			if (linkingRegion == null)
+			{
+				return regions.getHighestRegion().getRegionName();
+			}
+			else
+			{
+				return linkingRegion.getRegionName();
+			}
 		} else if ("?Move".equals(command))
 		{
 			printHandAndDeck();
@@ -62,12 +70,12 @@ public class MainRequestProcessor
 				}
 				@SuppressWarnings("serial")
 				Map<String, Integer> gainMap = new HashMap<String, Integer>() {{
-				put("Drummer", gainFromDrummer());
-				put("Heroine", gainFromHeroine());
-				put(hand.getHighestMercenary() == null ? "pass" : Integer.toString(hand.getHighestMercenary().getValue()), gainFromHighestMerc());
-				put("Spring", gainFromSpring());
-				put("Winter", gainFromWinter());
-				put("Bishop", gainFromBishop());
+					put("Drummer", gainFromDrummer());
+					put("Heroine", gainFromHeroine());
+					put(hand.getHighestMercenary() == null ? "pass" : Integer.toString(hand.getHighestMercenary().getValue()), gainFromHighestMerc());
+					put("Spring", gainFromSpring());
+					put("Winter", gainFromWinter());
+					put("Bishop", gainFromBishop());
 				}};
 				int topValue = Integer.MIN_VALUE;
 				for(Entry<String, Integer> entry : gainMap.entrySet())
@@ -197,7 +205,7 @@ public class MainRequestProcessor
 			String winrar = tokenizer.nextToken();
 			if (!"(tie)".equals(winrar) && !"tie".equals(winrar))
 			{
-				regions.occupyRegion(actualRegion);
+				regions.occupyRegionBy(actualRegion, players.getPlayer(winrar));
 			}
 		}
 		return null;
@@ -205,7 +213,7 @@ public class MainRequestProcessor
 
 	private Player getMyPlayer()
 	{
-		return players.getPlayer("TWO_AND_A_HALF_DEV");
+		return players.getPlayer(Main.MY_NAME);
 	}
 
 	private void printHandAndDeck()
