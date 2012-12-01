@@ -85,7 +85,7 @@ public class MainRequestProcessor
 				int topValue = Integer.MIN_VALUE;
 				for(Entry<String, Integer> entry : gainMap.entrySet())
 				{
-					if(entry.getValue() > topValue)
+					if(entry.getValue() > topValue && entry.getValue() > 0)
 					{
 						topValue = entry.getValue();
 						playedCard = new Card(entry.getKey());
@@ -141,20 +141,20 @@ public class MainRequestProcessor
 			}
 		} else if ("?Retrieve".equals(command))
 		{
-			printHandAndDeck();
-			Deck playedCards = getMyPlayer().getPlayedCards();
-			if (!playedCards.isEmpty())
-			{
-				// retrieve a played card
-				Card retrievedCard = playedCards.getHighestMercenary();
-				if (retrievedCard == null)
-				{
-					return "pass";
-				}
-				playedCards.removeCard(retrievedCard);
-				hand.addCardToDeck(retrievedCard);
-				return retrievedCard.toString();
-			} else
+//			printHandAndDeck();
+//			Deck playedCards = getMyPlayer().getPlayedCards();
+//			if (!playedCards.isEmpty())
+//			{
+//				// retrieve a played card
+//				Card retrievedCard = playedCards.getHighestMercenary();
+//				if (retrievedCard == null)
+//				{
+//					return "pass";
+//				}
+//				playedCards.removeCard(retrievedCard);
+//				hand.addCardToDeck(retrievedCard);
+//				return retrievedCard.toString();
+//			} else
 				return "pass";
 		} else if ("Retrieve".equals(command))
 		{
