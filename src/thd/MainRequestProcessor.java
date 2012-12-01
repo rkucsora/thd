@@ -171,11 +171,19 @@ public class MainRequestProcessor
 			{
 				winterOnField = true;
 				springOnField = false;
+				for(Player player : players.getPlayers())
+				{
+					player.getPlayedCards().removeAllOccurence(new Card("Spring"));
+				}
 			}
 			if (playedCard.getType() == CardType.Spring)
 			{
 				springOnField = true;
 				winterOnField = false;
+				for(Player player : players.getPlayers())
+				{
+					player.getPlayedCards().removeAllOccurence(new Card("Winter"));
+				}
 			}
 		} else if ("CurrentZone".equals(command))
 		{
@@ -202,8 +210,11 @@ public class MainRequestProcessor
 	private void printHandAndDeck()
 	{
 		System.out.println("Hand: " + hand.toString());
-		System.out.println("Table: "
-				+ getMyPlayer().getPlayedCards().toString());
+		for(Player player : players.getPlayers())
+		{
+			System.out.println(player.getName() + ": "
+					+ player.getPlayedCards().toString());
+		}
 	}
 
 	private boolean playScareCrow()
