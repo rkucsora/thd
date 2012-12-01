@@ -208,7 +208,7 @@ public class Regions
 		{
 			if(regonName.equals(actualreg.getRegionName()))
 			{
-				actualreg.setOccupied(true);
+				actualreg.setOccupied(false);
 				return;
 			}
 		}

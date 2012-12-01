@@ -49,7 +49,7 @@ public class Region
 	
 	public void occupyBy(Player player)
 	{
-		this.isOccupied = true;
+		this.setOccupied(true);
 		this.owner = player;
 	}
 	
