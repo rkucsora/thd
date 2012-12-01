@@ -119,7 +119,14 @@ public class MainRequestProcessor
 		} else if ("?Bishop".equals(command))
 		{
 			Region enemyRegion = regions.getEnemyLinkingRegion(players);
-			return enemyRegion == null ? "pass" : enemyRegion.getRegionName();
+			if (enemyRegion == null)
+			{
+				return "pass";
+			}
+			else
+			{
+				return enemyRegion.getRegionName();
+			}
 		} else if ("Protect".equals(command))
 		{
 			String zone = tokenizer.nextToken();
@@ -203,6 +210,7 @@ public class MainRequestProcessor
 		} else if ("CurrentZone".equals(command))
 		{
 			actualRegion = tokenizer.nextToken();
+			regions.occupyRegion(actualRegion);
 		} else if ("BattleStart".equals(command))
 		{
 			players.initPlayedCards();
@@ -212,6 +220,10 @@ public class MainRequestProcessor
 			if (!"(tie)".equals(winrar) && !"tie".equals(winrar))
 			{
 				regions.occupyRegionBy(actualRegion, players.getPlayer(winrar));
+			}
+			else
+			{
+				regions.liberateRegion(actualRegion);
 			}
 		}
 		return null;
