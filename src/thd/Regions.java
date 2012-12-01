@@ -85,14 +85,17 @@ public class Regions
 			{
 				for(Region adjacent : region.getAdjacentRegions())
 				{
-					Integer occurence = myAdjacentRegions.get(adjacent);
-					if (occurence == null)
+					if (!adjacent.isOccupied())
 					{
-						myAdjacentRegions.put(adjacent, 1);
-					}
-					else
-					{
-						myAdjacentRegions.put(adjacent, occurence + 1); 
+						Integer occurence = myAdjacentRegions.get(adjacent);
+						if (occurence == null)
+						{
+							myAdjacentRegions.put(adjacent, 1);
+						}
+						else
+						{
+							myAdjacentRegions.put(adjacent, occurence + 1); 
+						}
 					}
 				}
 			}
@@ -119,14 +122,17 @@ public class Regions
 			{
 				for(Region adjacent : region.getAdjacentRegions())
 				{
-					Integer occurence = myAdjacentRegions.get(adjacent);
-					if (occurence == null)
+					if (!adjacent.isOccupied())
 					{
-						myAdjacentRegions.put(adjacent, 1);
-					}
-					else
-					{
-						myAdjacentRegions.put(adjacent, occurence + 1); 
+						Integer occurence = myAdjacentRegions.get(adjacent);
+						if (occurence == null)
+						{
+							myAdjacentRegions.put(adjacent, 1);
+						}
+						else
+						{
+							myAdjacentRegions.put(adjacent, occurence + 1); 
+						}
 					}
 				}
 			}
