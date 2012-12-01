@@ -32,7 +32,7 @@ public class Deck {
 		}
 		for(Card card : cards)
 		{
-			 if(card.getValue() > highestCard.getValue())
+			 if(card.getValue() < highestCard.getValue())
 			 {
 					highestCard = card;
 			 }
