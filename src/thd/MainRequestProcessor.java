@@ -70,6 +70,7 @@ public class MainRequestProcessor
 				}
 				if (hand.containsCard(new Card("Courtesan")))
 				{
+					hand.removeCard(new Card("Courtesan"));
 					return "Courtesan";
 				}
 				@SuppressWarnings("serial")
