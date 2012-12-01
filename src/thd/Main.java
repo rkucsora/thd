@@ -23,7 +23,7 @@ public class Main {
 		stReader.close();
 		
 		Socket socket = new Socket(srvAddr[0], Integer.parseInt(srvAddr[1]));
-		socket.setSoTimeout(0);
+		socket.setSoTimeout(30000);
 		OutputStream outputStream = socket.getOutputStream();
 		PrintWriter writer = new PrintWriter(outputStream);
 		

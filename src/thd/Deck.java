@@ -23,10 +23,21 @@ public class Deck {
 		cards.add(card);
 	}
 	
+	public Card getCard(String name)
+	{
+		int index = cards.indexOf(new Card(name));
+		return cards.get(index);
+	}
+	
 	public Card getHighestCard(boolean isWinter)
 	{
 		if(isWinter)
 		{
+			Card lowestMerc = getLowestMercenary();
+			if(lowestMerc != null)
+			{
+				return lowestMerc;
+			}
 			return getLowestCardWithoutKey();
 		}
 		Card highestCard = getFirstNonKey();

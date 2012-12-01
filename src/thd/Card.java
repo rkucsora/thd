@@ -64,9 +64,16 @@ public class Card
 		if(obj != null && obj instanceof Card)
 		{
 			Card card = (Card)obj;
-			if(card.getType() == type && card.getValue() == value)
+			if(card.getType() == type)
 			{
-				return true;
+				if (card.getType() == CardType.Mercenary)
+				{
+					return card.getValue() == value;
+				}
+				else
+				{
+					return true;
+				}
 			}
 		}
 		return false;

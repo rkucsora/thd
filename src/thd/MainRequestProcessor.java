@@ -114,10 +114,18 @@ public class MainRequestProcessor
 				for(Entry<String, Integer> entry : gainMap.entrySet())
 				{
 					System.out.println("!!!! " + entry.getKey() + ": " + entry.getValue());
+					if(entry.getValue() != Integer.MIN_VALUE)
+					{
+						Card card = hand.getCard(entry.getKey());
+						if(card.getType() != CardType.Mercenary)
+						{
+							card.setValue(entry.getValue());
+						}
+					}
 					if(entry.getValue() > topValue && entry.getValue() > 2)
 					{
 						topValue = entry.getValue();
-						playedCard = new Card(entry.getKey());
+						playedCard = hand.getCard(entry.getKey());
 					}
 				}
 				
@@ -129,7 +137,15 @@ public class MainRequestProcessor
 					}
 					else
 					{
-						playedCard = hand.getLowestCardWithoutKeyAndBishop();
+						Card lowestMercenary = hand.getLowestMercenary();
+						if(lowestMercenary != null)
+						{
+							playedCard = lowestMercenary;
+						}
+						else
+						{
+							playedCard = hand.getLowestCardWithoutKeyAndBishop();
+						}
 					}
 					if(playedCard != null)
 					{
