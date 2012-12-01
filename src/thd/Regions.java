@@ -2,8 +2,10 @@ package thd;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
 public class Regions 
@@ -74,6 +76,24 @@ public class Regions
 			}
 		}
 		return maxregion;
+	}
+	
+	public Region getLowestRegion()
+	{
+		int min= Integer.MAX_VALUE;
+		Region minRegion= null;
+		for(Region region : regions)
+		{
+			if(!region.isOccupied())
+			{
+				if(region.getValue()<min)
+				{
+					minRegion = region;
+					min = region.getValue();
+				}
+			}
+		}
+		return minRegion;
 	}
 	
 	public Region getLinkingRegion()
@@ -169,6 +189,43 @@ public class Regions
 			}
 		}
 		return null;
+	}
+	
+	public Region getLonelyRegion()
+	{
+		Set<Region> adjacentRegions = new HashSet<Region>();
+		for(Region region : regions)
+		{
+			if (region.getOwner() != null)
+			{
+				adjacentRegions.add(region);
+				for(Region adjacent : region.getAdjacentRegions())
+				{
+					adjacentRegions.add(adjacent);
+				}
+			}
+		}
+		Region lowestLonelyRegion = null;
+		int lowestValue = Integer.MAX_VALUE;
+		for(Region region : regions)
+		{
+			if (!region.isOccupied() && !adjacentRegions.contains(region))
+			{
+				if (lowestLonelyRegion == null || region.getValue() < lowestValue)
+				{
+					lowestValue = region.getValue();
+					lowestLonelyRegion = region;
+				}
+			}
+		}
+		if (lowestLonelyRegion != null)
+		{
+			return lowestLonelyRegion;
+		}
+		else
+		{
+			return null;
+		}
 	}
 	
 	public void occupyRegion(String regionName)

@@ -43,14 +43,32 @@ public class MainRequestProcessor
 			}
 		} else if ("?Condottiere".equals(command))
 		{
-			Region linkingRegion = regions.getLinkingRegion();
-			if (linkingRegion == null)
+			float averageValue = 1.0f * hand.getAllCardValues(false, false, null, false) / hand.size();
+			if( averageValue > 3.0f )
 			{
-				return regions.getHighestRegion().getRegionName();
+				Region linkingRegion = regions.getLinkingRegion();
+				if (linkingRegion == null)
+				{
+					return regions.getHighestRegion().getRegionName();
+				}
+				else
+				{
+					return linkingRegion.getRegionName();
+				}
 			}
 			else
 			{
-				return linkingRegion.getRegionName();
+				// gecemesszit válasszá' more!!!
+				System.out.println("!!!! hudemessze");
+				Region lonelyRegion = regions.getLonelyRegion();
+				if (lonelyRegion != null)
+				{
+					return lonelyRegion.getRegionName();
+				}
+				else
+				{
+					return regions.getLowestRegion().getRegionName();
+				}
 			}
 		} else if ("?Move".equals(command))
 		{
@@ -214,9 +232,12 @@ public class MainRequestProcessor
 		} else if ("BattleStart".equals(command))
 		{
 			players.initPlayedCards();
+			float averageValue = 1.0f * hand.getAllCardValues(false, false, null, false) / hand.size();
+			System.out.println("!!!! Current hand value:" + averageValue);
 		} else if ("BattleEnd".equals(command))
 		{
 			String winrar = tokenizer.nextToken();
+			System.out.println("!!!! winrar: " + winrar);
 			if (!"(tie)".equals(winrar) && !"tie".equals(winrar))
 			{
 				regions.occupyRegionBy(actualRegion, players.getPlayer(winrar));
@@ -350,7 +371,7 @@ public class MainRequestProcessor
 	{
 		if(hand.containsCard(new Card("Heroine")))
 		{
-			return 10;
+			return 20;
 		}
 		return Integer.MIN_VALUE;
 	}
@@ -392,7 +413,7 @@ public class MainRequestProcessor
 				}
 			}
 			int withBishopDelta = myScore - topScore;
-			return withBishopDelta - actualDelta;
+			return 2*(withBishopDelta - actualDelta);
 		}
 		return Integer.MIN_VALUE;
 	}

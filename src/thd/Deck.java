@@ -57,7 +57,7 @@ public class Deck {
 		Card highestCard = null;
 		for(Card card : cards)
 		{
-			 if(card.getType() == CardType.Mercenary && (highestCard == null || card.getValue() > highestCard.getValue()))
+			 if(card.getType() == CardType.Mercenary && (highestCard == null || card.getValue() < highestCard.getValue()))
 			 {
 					highestCard = card;
 			 }
